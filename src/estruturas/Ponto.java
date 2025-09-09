@@ -1,3 +1,4 @@
+package estruturas;
 /**
  * Classe que representa um ponto (coordenada x, y) para o algoritmo de flood fill
  */
