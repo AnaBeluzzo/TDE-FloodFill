@@ -1,7 +1,6 @@
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
+import estruturas.Lista;
 
 /**
  * Classe responsável por gerar GIF a partir dos frames PNG
@@ -26,10 +25,12 @@ public class GeradorGIF {
             throw new IOException("Nenhum arquivo PNG encontrado na pasta: " + pastaFrames);
         }
         
-        // Ordena os arquivos por nome
-        ArrayList<File> listaArquivos = new ArrayList<>();
-        Collections.addAll(listaArquivos, arquivos);
-        Collections.sort(listaArquivos);
+        // Converte array para Lista personalizada e ordena os arquivos por nome
+        Lista<File> listaArquivos = new Lista<>();
+        for (File arquivo : arquivos) {
+            listaArquivos.adicionar(arquivo);
+        }
+        ordenarListaPorNome(listaArquivos);
         
         // Tenta usar ImageMagick primeiro
         if (tentarImageMagick(pastaFrames, nomeGIF, delay)) {
@@ -67,9 +68,44 @@ public class GeradorGIF {
     }
     
     /**
+     * Ordena a lista de arquivos por nome usando selection sort
+     */
+    private static void ordenarListaPorNome(Lista<File> lista) {
+        int tamanho = lista.getTamanho();
+        
+        // Cria um array temporário para facilitar a ordenação
+        File[] arquivos = new File[tamanho];
+        for (int i = 0; i < tamanho; i++) {
+            arquivos[i] = lista.obter(i);
+        }
+        
+        // Selection sort no array
+        for (int i = 0; i < tamanho - 1; i++) {
+            int menorIndice = i;
+            for (int j = i + 1; j < tamanho; j++) {
+                if (arquivos[j].getName().compareTo(arquivos[menorIndice].getName()) < 0) {
+                    menorIndice = j;
+                }
+            }
+            // Troca os elementos
+            if (menorIndice != i) {
+                File temp = arquivos[i];
+                arquivos[i] = arquivos[menorIndice];
+                arquivos[menorIndice] = temp;
+            }
+        }
+        
+        // Reconstrói a lista com os elementos ordenados
+        lista.limpar();
+        for (int i = 0; i < tamanho; i++) {
+            lista.adicionar(arquivos[i]);
+        }
+    }
+    
+    /**
      * Gera GIF usando Java puro com implementação simplificada
      */
-    private static void gerarGIFJavaPuro(ArrayList<File> arquivos, String nomeGIF, int delay) throws IOException {
+    private static void gerarGIFJavaPuro(Lista<File> arquivos, String nomeGIF, int delay) throws IOException {
         System.out.println("ImageMagick não encontrado. Usando gerador Java simplificado...");
         
         // Usar o AnimatedGifEncoder
@@ -80,7 +116,8 @@ public class GeradorGIF {
             gifEncoder.setRepeat(0); // 0 = loop infinito
             
             // Adiciona cada frame
-            for (File arquivo : arquivos) {
+            for (int i = 0; i < arquivos.getTamanho(); i++) {
+                File arquivo = arquivos.obter(i);
                 try {
                     java.awt.image.BufferedImage imagem = javax.imageio.ImageIO.read(arquivo);
                     gifEncoder.addFrame(imagem);
