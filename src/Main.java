@@ -15,66 +15,70 @@ public class Main {
         System.out.println();
         
         try {
-            // 1. Solicitar caminho da imagem
-            String caminhoImagem = solicitarCaminhoImagem();
-            
-            // 2. Selecionar tipo de algoritmo
-            TipoAlgoritmo tipoAlgoritmo = selecionarTipoAlgoritmo();
-            
-            // 3. Carregar imagem e criar objeto FloodFill
-            FloodFill floodFill = new FloodFill(caminhoImagem, tipoAlgoritmo);
-            
+            // 1. Solicitar caminho da imagem e validar
+            String caminhoImagem = null;
+            FloodFill floodFill = null;
+            while (true) {
+                caminhoImagem = solicitarCaminhoImagem();
+                try {
+                    // 2. Selecionar tipo de algoritmo
+                    TipoAlgoritmo tipoAlgoritmo = selecionarTipoAlgoritmo();
+                    // 3. Tenta carregar imagem e criar objeto FloodFill
+                    floodFill = new FloodFill(caminhoImagem, tipoAlgoritmo);
+                    break;
+                } catch (IOException | IllegalArgumentException e) {
+                    System.err.println("Imagem inválida ou erro de E/S: " + e.getMessage());
+                    System.out.println("Por favor, digite o caminho de uma imagem válida.");
+                }
+            }
+
             // 4. Mostrar informações da imagem
             mostrarInformacoesImagem(floodFill);
-            
+
             // 5. Configurar intervalo de frames
             int intervaloPorFrame = solicitarIntervaloPorFrame(floodFill);
             floodFill.setIntervaloPorFrame(intervaloPorFrame);
-            
+
             // 6. Selecionar cor de preenchimento
             Color novaCor = selecionarCor();
-            
+
             // 7. Selecionar coordenadas
             int[] coordenadas = selecionarCoordenadas(floodFill);
             int x = coordenadas[0];
             int y = coordenadas[1];
-            
+
             // Mostrar cor atual do pixel selecionado
             Color corAtual = floodFill.getCorPixel(x, y);
             System.out.printf("Cor atual no pixel (%d, %d): R=%d, G=%d, B=%d%n", 
                             x, y, corAtual.getRed(), corAtual.getGreen(), corAtual.getBlue());
-            
+
             // 8. Confirmar execução
             if (confirmarExecucao()) {
                 System.out.println("Executando flood fill...");
-                
+
                 long tempoInicio = System.currentTimeMillis();
                 floodFill.executarFloodFill(x, y, novaCor);
                 long tempoFim = System.currentTimeMillis();
-                
+
                 System.out.printf("Flood fill concluído em %d ms%n", (tempoFim - tempoInicio));
                 System.out.println("Número de frames gerados: " + floodFill.getNumeroFrames());
-                
+
                 // 9. Salvar frames
                 String pastaFrames = "frames";
                 floodFill.salvarFrames(pastaFrames);
-                
+
                 // 9. Gerar GIF
                 String nomeGIF = solicitarNomeGIF();
                 int delayGIF = solicitarDelayGIF();
-                
+
                 System.out.println("Gerando GIF...");
                 GeradorGIF.gerarGIF(pastaFrames, nomeGIF, delayGIF);
-                
+
                 System.out.println("Processo concluído com sucesso!");
             } else {
                 System.out.println("Operação cancelada.");
             }
-            
-        } catch (IOException e) {
-            System.err.println("Erro de E/S: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            System.err.println("Erro nos parâmetros: " + e.getMessage());
+
         } catch (Exception e) {
             System.err.println("Erro inesperado: " + e.getMessage());
             e.printStackTrace();
@@ -210,9 +214,17 @@ public class Main {
     
     private static boolean confirmarExecucao() {
         System.out.println("\n=== RESUMO DA CONFIGURAÇÃO ===");
-        System.out.print("Deseja executar o flood fill? (s/n): ");
-        String resposta = scanner.nextLine().trim().toLowerCase();
-        return resposta.equals("s") || resposta.equals("sim") || resposta.equals("y") || resposta.equals("yes");
+        while (true) {
+            System.out.print("Deseja executar o flood fill? (s/n): ");
+            String resposta = scanner.nextLine().trim().toLowerCase();
+            if (resposta.equals("s")) {
+                return true;
+            } else if (resposta.equals("n")) {
+                return false;
+            } else {
+                System.out.println("Por favor, responda apenas com 's' para sim ou 'n' para não.");
+            }
+        }
     }
     
     private static String solicitarNomeGIF() {

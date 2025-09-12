@@ -32,34 +32,59 @@ TDE1/
 └── README.md
 ```
 
-## Bibliotecas Utilizadas
 
-- `java.awt.image.BufferedImage` - Para manipulação de imagens
-- `java.io.File` - Para operações de arquivo
-- `javax.imageio.ImageIO` - Para leitura/escrita de imagens
+## Bibliotecas Utilizadas (Imports)
+
+O projeto utiliza as seguintes bibliotecas Java:
+
+```java
+// Manipulação de imagens
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+
+// Operações de arquivo
+import java.io.File;
+import java.io.IOException;
+
+// Leitura/escrita de imagens
+import javax.imageio.ImageIO;
+import javax.imageio.stream.FileImageOutputStream;
+import javax.imageio.stream.ImageOutputStream;
+
+// Estruturas de dados personalizadas
+import estruturas.Lista;
+import estruturas.Fila;
+import estruturas.Pilha;
+import estruturas.Elemento;
+import estruturas.TipoAlgoritmo;
+
+// Utilidades
+import java.util.Scanner;
+import java.util.Arrays; // (usado apenas se necessário para ordenação)
+```
+
+Essas bibliotecas são usadas para manipulação de imagens, arquivos, entrada do usuário, e para implementar as estruturas de dados personalizadas do projeto.
 
 ## Como Usar
 
 ### Pré-requisitos
 
 1. Java 8 ou superior
-2. ImageMagick (opcional, para geração automática de GIF)
-   - macOS: `brew install imagemagick`
-   - Ubuntu/Debian: `sudo apt-get install imagemagick`
-   - Windows: Baixar do site oficial
 
-### Compilação
+### Compilação e Execução
 
+1. Linux
 ```bash
 cd /Users/fergrenteski/TDE1
-javac -d . src/*.java src/estruturas/*.java
+./compilar_e_executar.sh
 ```
 
-### Execução
-
+1. Windows
 ```bash
-java Main
+cd /Users/fergrenteski/TDE1
+./compilar_e_executar.bat
 ```
+
 
 ### Fluxo da Aplicação
 
@@ -109,7 +134,7 @@ Salvos 156 frames na pasta: frames
 Digite o nome do arquivo GIF (sem extensão): minha_animacao
 Digite o delay entre frames em milissegundos (padrão: 100): 80
 Gerando GIF...
-GIF gerado com sucesso usando ImageMagick: minha_animacao.gif
+GIF gerado com sucesso: minha_animacao.gif
 
 Processo concluído com sucesso!
 ```
@@ -146,23 +171,3 @@ O algoritmo implementado é iterativo e usa uma fila para:
 1. Evitar estouro de pilha em imagens grandes
 2. Garantir preenchimento uniforme
 3. Permitir salvamento de frames durante o processo
-
-## Geração de GIF
-
-1. **Primeiro tenta usar ImageMagick** (método recomendado)
-2. **Se ImageMagick não estiver disponível**, cria um script shell para geração manual
-3. **Configurações personalizáveis**: delay entre frames, nome do arquivo
-
-## Limitações
-
-- Funciona apenas com formatos de imagem suportados pelo Java (PNG, JPG, GIF, BMP)
-- Requer ImageMagick para geração automática de GIF
-- O tempo de processamento depende do tamanho da área a ser preenchida
-
-## Possíveis Melhorias
-
-- Suporte a diferentes algoritmos de flood fill
-- Interface gráfica
-- Otimizações de performance
-- Suporte a mais formatos de imagem
-- Geração de GIF nativa em Java

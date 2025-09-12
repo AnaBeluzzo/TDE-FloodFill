@@ -61,7 +61,6 @@ public class GeradorGIF {
         for (File arquivo : arquivos) {
             listaArquivos.adicionar(arquivo);
         }
-        ordenarListaPorNome(listaArquivos);
         
         try {
             gerarGIFComImageIO(listaArquivos, nomeGIF, delay);
@@ -75,16 +74,14 @@ public class GeradorGIF {
     }
     
     /**
-     * Método instanciável para gerar GIF animado
+     * Método para gerar GIF
      * 
      * @throws IOException Se houver erro na leitura/escrita dos arquivos
      */
     public void gerarGifAnimado() throws IOException {
         File dir = new File(pastaFrames);
         File[] files = dir.listFiles((d, name) -> 
-            name.toLowerCase().endsWith(".png") || 
-            name.toLowerCase().endsWith(".jpg") || 
-            name.toLowerCase().endsWith(".jpeg")
+            name.toLowerCase().endsWith(".png")
         );
 
         if (files == null || files.length == 0) {
@@ -129,42 +126,7 @@ public class GeradorGIF {
         // Cria uma instância do GeradorGIF
         GeradorGIF gifGenerator = new GeradorGIF("frames", nomeGIF, delay, true);
         
-        // Gera o GIF usando o método instanciável
+        // Gera o GIF 
         gifGenerator.gerarGifAnimado();
-    }
-    
-    /**
-     * Ordena a lista de arquivos por nome usando selection sort
-     */
-    private static void ordenarListaPorNome(Lista<File> lista) {
-        int tamanho = lista.getTamanho();
-        
-        // Cria um array temporário para facilitar a ordenação
-        File[] arquivos = new File[tamanho];
-        for (int i = 0; i < tamanho; i++) {
-            arquivos[i] = lista.obter(i);
-        }
-        
-        // Selection sort no array
-        for (int i = 0; i < tamanho - 1; i++) {
-            int menorIndice = i;
-            for (int j = i + 1; j < tamanho; j++) {
-                if (arquivos[j].getName().compareTo(arquivos[menorIndice].getName()) < 0) {
-                    menorIndice = j;
-                }
-            }
-            // Troca os elementos
-            if (menorIndice != i) {
-                File temp = arquivos[i];
-                arquivos[i] = arquivos[menorIndice];
-                arquivos[menorIndice] = temp;
-            }
-        }
-        
-        // Reconstrói a lista com os elementos ordenados
-        lista.limpar();
-        for (int i = 0; i < tamanho; i++) {
-            lista.adicionar(arquivos[i]);
-        }
     }
 }
