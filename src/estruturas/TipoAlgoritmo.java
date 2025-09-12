@@ -1,7 +1,7 @@
 package estruturas;
 
 /**
- * Enum para tipos de algoritmo de flood fill
+ * Enum para tipos de algoritmo
  */
 public enum TipoAlgoritmo {
     FILA_BFS("Fila (BFS - Breadth-First Search)"),

@@ -165,7 +165,7 @@ public class Main {
         
         while (true) {
             try {
-                System.out.print("Escolha uma opção (1-9): ");
+                System.out.print("Escolha uma opção (1-3): ");
                 int opcao = Integer.parseInt(scanner.nextLine().trim());
                 
                 switch (opcao) {
@@ -177,29 +177,6 @@ public class Main {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Por favor, digite um número válido.");
-            }
-        }
-    }
-    
-    private static Color solicitarCorPersonalizada() {
-        while (true) {
-            try {
-                System.out.print("Digite o valor R (0-255): ");
-                int r = Integer.parseInt(scanner.nextLine().trim());
-                
-                System.out.print("Digite o valor G (0-255): ");
-                int g = Integer.parseInt(scanner.nextLine().trim());
-                
-                System.out.print("Digite o valor B (0-255): ");
-                int b = Integer.parseInt(scanner.nextLine().trim());
-                
-                if (r >= 0 && r <= 255 && g >= 0 && g <= 255 && b >= 0 && b <= 255) {
-                    return new Color(r, g, b);
-                } else {
-                    System.out.println("Os valores RGB devem estar entre 0 e 255.");
-                }
-            } catch (NumberFormatException e) {
-                System.out.println("Por favor, digite números válidos.");
             }
         }
     }

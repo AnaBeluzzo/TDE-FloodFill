@@ -1,7 +1,7 @@
 package estruturas;
 
 /**
- * Implementação de uma Lista genérica usando elementos encadeados
+ * Implementação de uma Lista
  * @param <T> Tipo dos elementos da lista
  */
 public class Lista<T> {

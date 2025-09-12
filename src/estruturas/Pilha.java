@@ -1,7 +1,7 @@
 package estruturas;
 
 /**
- * Implementação de uma Pilha (LIFO - Last In, First Out) genérica
+ * Implementação de uma Pilha
  * @param <T> Tipo dos elementos da pilha
  */
 public class Pilha<T> {
