@@ -23,12 +23,15 @@ TDE1/
 │   │   ├── Lista.java         # Lista encadeada
 │   │   ├── Fila.java          # Fila (FIFO)
 │   │   ├── Pilha.java         # Pilha (LIFO)
+│   │   ├── Ponto.java         # Ponto (Cordenadas)
 │   │   └── TipoAlgoritmo.java # Enum para tipos de algoritmo
 │   ├── Main.java              # Classe principal
 │   ├── FloodFill.java         # Algoritmo de flood fill
-│   ├── Ponto.java             # Classe para coordenadas
+│   ├── GifSequenceWriter.java # Algoritmo de geração de gif (Pronto)
 │   └── GeradorGIF.java        # Geração de GIF
-├── frames/                    # Pasta para os frames PNG
+├── classes/                   # Pasta das classes              
+│   ├── frames/                # Pasta para os frames PNG
+│   └── resultado.gif          # Resultado do Gif
 └── README.md
 ```
 
